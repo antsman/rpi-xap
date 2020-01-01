@@ -121,5 +121,9 @@ for i in $subsystem; do
 done
 
 sleep 5
-# bring the job #2 (plugboard if enabled) back into the foreground
-fg %2
+
+# bring back into the foreground
+# - job #2 i.e. plugboard if enabled
+# - job #1 i.e. hub if no other subsystems enabled
+
+[ $(grep enable=1 /etc/xap.d/* | wc -l) -gt 0 ] && fg %2 || fg %1

@@ -16,8 +16,9 @@ pipeline {
         }
         stage('TEST') {
             steps {
-                sh "docker run -d --rm --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG sleep 120"
-                sh "./get-versions.sh $CONTAINER_NAME"	// Get hah, os version in started container, store in version.properties
+                sh "docker run -d --rm --name $CONTAINER_NAME $IMAGE_NAME:$IMAGE_TAG"
+                // Get hah, os version in started container, store in version.properties
+                sh "./get-versions.sh $CONTAINER_NAME"
                 load './version.properties'
                 echo "$HAH_VERSION"
                 echo "$OS_VERSION"

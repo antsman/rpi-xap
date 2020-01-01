@@ -22,6 +22,10 @@ pipeline {
                 load './version.properties'
                 echo "$HAH_VERSION"
                 echo "$OS_VERSION"
+                // Check for hub listening on default port
+                sh 'date'
+                sleep 60
+                sh "docker exec -t $CONTAINER_NAME netstat -ulp | grep 3639 | grep xap-hub"
                 sh "time docker stop $CONTAINER_NAME"
             }
         }

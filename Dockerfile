@@ -63,8 +63,8 @@ RUN mkdir -p $HOME && \
     mkdir -p /var/log/$USER && \
     chown -R $USER:$USER /var/log/$USER
 
-# Copy xap wrapper
-COPY root /
+# Copy in xap wrapper
+COPY xap-wrapper.sh /
 ENV LOGLEVEL -d 5
 # 5 notice
 # 6 info

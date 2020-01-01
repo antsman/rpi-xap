@@ -6,13 +6,13 @@ FROM debian:jessie-slim as build
 ARG LUA_VERSION=5.1
 ARG SRC=/usr/src
 
-RUN apt-get update && \
-    apt-get upgrade && \
-    rm -rf /var/lib/apt/lists/*
+# RUN apt-get update && \
+#     apt-get upgrade -y && \
+#     rm -rf /var/lib/apt/lists/*
 
 # Build packages required
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y -qq \
       build-essential libxml2-dev libcurl4-openssl-dev flex \
       git liblua${LUA_VERSION}-dev libssl-dev && \
     rm -rf /var/lib/apt/lists/*
@@ -37,13 +37,17 @@ ARG USER=xap
 ARG HOME=/home/$USER
 ARG LUA_VERSION=5.1
 ARG SRC=/usr/src
+ARG LOGLEVEL=5
+# 5 notice
+# 6 info
+# 7 debug
 
 # Copy build result
 COPY --from=build $SRC/portable/build/sysroot /
 
 # Runtime packages required
 RUN apt-get update && \
-    apt-get install -y \
+    apt-get install -y -qq \
 # dbzoo listed
       lua${LUA_VERSION} lua-filesystem lua-rex-posix lua-socket \
 # extra required on rpi
@@ -65,13 +69,10 @@ RUN mkdir -p $HOME && \
 
 # Copy in xap wrapper
 COPY xap-wrapper.sh /
-ENV LOGLEVEL -d 5
-# 5 notice
-# 6 info
-# 7 debug
 
 USER $USER
 WORKDIR $HOME
+ENV LOGLEVEL -d $LOGLEVEL
 
 # Expose xap hub, klone
 EXPOSE 3639/udp 80

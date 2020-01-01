@@ -6,12 +6,12 @@ FROM debian:jessie-slim as build
 ARG LUA_VERSION=5.1
 ARG SRC=/usr/src
 
-# RUN apt-get update && \
+# RUN apt-get update -qq && \
 #     apt-get upgrade -y && \
 #     rm -rf /var/lib/apt/lists/*
 
 # Build packages required
-RUN apt-get update && \
+RUN apt-get update -qq && \
     apt-get install -y -qq \
       build-essential libxml2-dev libcurl4-openssl-dev flex \
       git liblua${LUA_VERSION}-dev libssl-dev && \
@@ -27,7 +27,7 @@ RUN mkdir -p $SRC && \
 
 # Build
 RUN cd $SRC/portable && \
-    make install
+    make --silent install
 
 # Final stage
 FROM debian:jessie-slim
@@ -46,7 +46,7 @@ ARG LOGLEVEL=5
 COPY --from=build $SRC/portable/build/sysroot /
 
 # Runtime packages required
-RUN apt-get update && \
+RUN apt-get update -qq && \
     apt-get install -y -qq \
 # dbzoo listed
       lua${LUA_VERSION} lua-filesystem lua-rex-posix lua-socket \

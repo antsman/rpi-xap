@@ -51,7 +51,7 @@ RUN apt-get update -qq && \
 # dbzoo listed
       lua${LUA_VERSION} lua-filesystem lua-rex-posix lua-socket \
 # extra required on rpi
-      libssl1.0.0 libcurl3 \
+      libssl1.0.0 libcurl3 libxml2 \
 # tools of interest
       procps net-tools sudo socat && \
     rm -rf /var/lib/apt/lists/*

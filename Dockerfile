@@ -30,7 +30,7 @@ RUN cd $SRC/portable && \
     make --silent install
 
 # Final stage
-FROM debian:jessie-slim
+FROM debian:buster-slim
 
 # User, home (app) and data folders
 ARG USER=xap

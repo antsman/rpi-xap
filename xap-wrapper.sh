@@ -10,8 +10,7 @@
 
 subsystem="hub plugboard xively livebox iServer klone sms serial currentcost twitter googlecal urfrx mail"
 #MYDEV="-i wlan0"
-LOGLEVEL="-d 9"
-# BIN="sudo -u xap /usr/bin"
+LOGLEVEL="-d 5"
 BIN=/usr/bin
 LOG=/var/log/xap
 

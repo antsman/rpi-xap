@@ -10,7 +10,8 @@
 
 subsystem="hub plugboard xively livebox iServer klone sms serial currentcost twitter googlecal urfrx mail"
 #MYDEV="-i wlan0"
-#LOGLEVEL="-d 5"
+LOGLEVEL="-d 9"
+# BIN="sudo -u xap /usr/bin"
 BIN=/usr/bin
 LOG=/var/log/xap
 
@@ -108,22 +109,28 @@ start_urfrx() {
   fi
 }
 
-# turn on bash's job control
-set -m
-
 # hub needs to start first to bind default 3639 port
-
+OLDIFS=$IFS
 IFS=" "
 for i in $subsystem; do
-  cmd="start_$i"
-  $cmd
-  ps -ef | grep $i | grep -v grep >/dev/null && echo "Started $i"
+  "start_$i"
+  # allow a bit of startup-time
+  sleep 1
+  ps -ef | grep $i | grep -v grep >/dev/null && (
+    echo "$(date +"[%F %T.%S]") Started $i" | tee -a $LOG/xap-wrapper.log
+    echo $i >>started
+  )
 done
 
-sleep 5
-
-# bring back into the foreground
-# - job #2 i.e. plugboard if enabled
-# - job #1 i.e. hub if no other subsystems enabled
-
-[ $(grep enable=1 /etc/xap.d/* | wc -l) -gt 0 ] && fg %2 || fg %1
+# keep sybsystems running
+IFS=$OLDIFS
+while true; do
+  # check every x seconds
+  sleep 300
+  for i in $(cat started); do
+    ps -ef | grep $i | grep -v grep >/dev/null || (
+      echo "$(date +"[%F %T.%S]") $i not found. Starting .." | tee -a $LOG/xap-wrapper.log
+      "start_$i"
+    )
+  done
+done

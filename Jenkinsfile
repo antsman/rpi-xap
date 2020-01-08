@@ -25,7 +25,7 @@ pipeline {
                 // Check for hub listening on default port
                 sh 'date'
                 sleep 60
-                sh "docker exec -t $CONTAINER_NAME netstat -ulp | grep 3639 | grep xap-hub"
+                sh "docker exec -t $CONTAINER_NAME netstat -ulp | grep :3639 | grep xap-hub"
                 sh "time docker stop $CONTAINER_NAME"
             }
         }

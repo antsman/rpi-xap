@@ -116,7 +116,7 @@ for i in $subsystem; do
   # allow a bit of startup-time
   sleep 1
   ps -ef | grep $i | grep -v grep >/dev/null && (
-    echo "$(date +"[%F %T.%S]") Started $i" | tee -a $LOG/xap-wrapper.log
+    echo "$(date +"[%F %T]") Started $i" | tee -a $LOG/xap-wrapper.log
     echo $i >>started
   )
 done
@@ -128,7 +128,7 @@ while true; do
   sleep 300
   for i in $(cat started); do
     ps -ef | grep $i | grep -v grep >/dev/null || (
-      echo "$(date +"[%F %T.%S]") $i not found. Starting .." | tee -a $LOG/xap-wrapper.log
+      echo "$(date +"[%F %T]") $i not found. Starting .." | tee -a $LOG/xap-wrapper.log
       "start_$i"
     )
   done

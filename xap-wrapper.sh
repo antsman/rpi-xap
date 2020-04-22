@@ -8,7 +8,7 @@
 # Description:       xAP Home automation hub
 ###
 
-subsystem="hub plugboard xively livebox iServer klone sms serial currentcost twitter googlecal urfrx mail"
+subsystem="hub livebox plugboard xively iServer klone sms serial currentcost twitter googlecal urfrx mail"
 #MYDEV="-i wlan0"
 LOGLEVEL="-d 5"
 BIN=/usr/bin

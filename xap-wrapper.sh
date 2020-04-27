@@ -31,7 +31,7 @@ start_hub() {
 start_livebox() {
   INI="/etc/xap.d/xap-livebox.ini"
   if [ `iniget $INI livebox enable 0` -eq 1 ] ;  then
-    $BIN/xap-livebox $MYDEV $LOGLEVEL >$LOG/xap-livebox.log 2>&1 &
+    sudo $BIN/xap-livebox $MYDEV $LOGLEVEL >$LOG/xap-livebox.log 2>&1 &
   fi
 }
 
@@ -96,7 +96,7 @@ start_plugboard() {
 start_iServer() {
   INI="/etc/xap.d/iserver.ini"
   if [ `iniget $INI iserver enable 0` -eq 1 ] ;  then
-    $BIN/iServer $MYDEV $LOGLEVEL >$LOG/iserver.log 2>&1 &
+    sudo $BIN/iServer $MYDEV $LOGLEVEL >$LOG/iserver.log 2>&1 &
   fi
 }
 
